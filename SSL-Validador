@@ -1,0 +1,16 @@
+#!/bin/bash
+datediff() {
+    d1=$(date -d "$1" +%s)
+    d2=$(date -d "$2" +%s)
+    echo $(( (d1 - d2) / 86400 )) dias
+}
+
+agora=`date "+%b %d"`
+
+comando=`curl --insecure -v https://$1 2>&1 | awk 'BEGIN { cert=0 } /^\* Server certificate:/ { cert=1 } /^\*/ { if (cert) print }' | grep expire | cut -d ":" -f2-10 | cut -d " " -f1-3`
+
+datediff "$comando" "$agora"
+
+##echo $comando
+
+##echo $agora
